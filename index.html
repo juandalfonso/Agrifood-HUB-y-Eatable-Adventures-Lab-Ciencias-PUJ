@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laboratorios Facultad de Ciencias – PUJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --jav-blue:        #00447C;
+      --jav-blue-dark:   #002F5E;
+      --jav-blue-mid:    #1A5C96;
+      --jav-blue-light:  #E8F0F9;
+      --jav-gold:        #E8A700;
+      --jav-gold-hover:  #C88F00;
+      --jav-gold-light:  #FFF7E0;
+      --color-bg:        #F6F7FA;
+      --color-surface:   #FFFFFF;
+      --color-surface-2: #F0F4F8;
+      --color-border:    rgba(0,68,124,0.12);
+      --color-text:      #1A2533;
+      --color-muted:     #4D6070;
+      --color-faint:     #8FA3B5;
+      --color-success:   #2E7D32;
+      --shadow-sm: 0 1px 4px rgba(0,44,100,0.07);
+      --shadow-md: 0 4px 16px rgba(0,44,100,0.10);
+      --shadow-lg: 0 12px 40px rgba(0,44,100,0.14);
+      --radius-sm: 0.375rem;
+      --radius-md: 0.625rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+      --radius-full: 9999px;
+      --font-display: 'Lora', Georgia, serif;
+      --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.25rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem;
+      --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+      --content-default: 1120px;
+      --transition: 200ms cubic-bezier(0.16,1,0.3,1);
+    }
+    [data-theme="dark"] {
+      --color-bg: #0D1821; --color-surface: #142132; --color-surface-2: #1B2D42;
+      --color-border: rgba(255,255,255,0.08); --color-text: #D8E6F0;
+      --color-muted: #8FA8C0; --color-faint: #4D6070;
+      --jav-blue-light: #0D2340; --jav-gold-light: #211800;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    /* ── BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.65; transition: background var(--transition), color var(--transition); }
+    img { display: block; max-width: 100%; height: auto; }
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; }
+    p { text-wrap: pretty; }
+    a { color: var(--jav-blue); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--jav-gold-hover); }
+    button { cursor: pointer; font: inherit; border: none; background: none; }
+    :focus-visible { outline: 2px solid var(--jav-gold); outline-offset: 3px; border-radius: var(--radius-sm); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: var(--content-default); margin-inline: auto; padding-inline: var(--space-6); }
+
+    /* ── SKIP LINK ── */
+    .skip-link { position: absolute; top: -100px; left: var(--space-4); background: var(--jav-blue); color: #fff; padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; z-index: 9999; transition: top 0.2s; }
+    .skip-link:focus { top: var(--space-4); }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--jav-blue);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-4); padding-block: var(--space-3);
+      max-width: var(--content-default); margin-inline: auto; padding-inline: var(--space-6);
+    }
+    .nav-logo { display: flex; align-items: center; gap: var(--space-3); }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-logo-text { color: #fff; font-family: var(--font-display); font-size: var(--text-base); font-weight: 600; line-height: 1.2; }
+    .nav-logo-text span { display: block; font-size: var(--text-xs); font-family: var(--font-body); font-weight: 400; opacity: 0.75; }
+    .nav-actions { display: flex; align-items: center; gap: var(--space-3); }
+    .theme-toggle {
+      width: 38px; height: 38px; border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.12); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: clamp(360px, 55vh, 520px);
+      display: flex; align-items: flex-end;
+    }
+    .hero-img {
+      position: absolute; inset: 0;
+      background-image: url('https://tab.net.co/wp-content/uploads/2017/08/PRA3747-2.jpg');
+      background-size: cover; background-position: center 40%;
+      filter: brightness(0.45);
+    }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,20,50,0.92) 0%, rgba(0,44,124,0.4) 55%, transparent 100%); }
+    .hero-content {
+      position: relative; z-index: 2;
+      width: 100%;
+      padding: clamp(var(--space-8), 6vw, var(--space-16)) var(--space-6);
+      max-width: var(--content-default); margin-inline: auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--jav-gold); color: #1A1000;
+      font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); margin-bottom: var(--space-4);
+    }
+    .hero-title { font-size: var(--text-2xl); color: #FFFFFF; font-weight: 700; max-width: 18ch; margin-bottom: var(--space-3); }
+    .hero-sub { font-size: var(--text-base); color: rgba(255,255,255,0.80); max-width: 56ch; margin-bottom: var(--space-6); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .hero-badge {
+      display: flex; align-items: center; gap: var(--space-2);
+      background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18);
+      color: #fff; font-size: var(--text-xs); font-weight: 500;
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-section { background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+    .filter-inner { padding-block: var(--space-4); }
+    .filter-label { font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted); margin-bottom: var(--space-3); display: block; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .filter-btn {
+      font-size: var(--text-sm); font-weight: 500;
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      color: var(--color-muted); background: var(--color-bg);
+      cursor: pointer; transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--jav-blue); color: var(--jav-blue); background: var(--jav-blue-light); }
+    .filter-btn.active { background: var(--jav-blue); border-color: var(--jav-blue); color: #fff; box-shadow: var(--shadow-sm); }
+    .filter-btn.active:hover { background: var(--jav-blue-dark); border-color: var(--jav-blue-dark); }
+
+    /* ── SECTION HEADING ── */
+    .section { padding-block: clamp(var(--space-10), 5vw, var(--space-16)); }
+    .section-heading { margin-bottom: var(--space-8); }
+    .section-heading h2 { font-size: var(--text-xl); color: var(--jav-blue); margin-bottom: var(--space-2); }
+    [data-theme="dark"] .section-heading h2 { color: #7EB3DD; }
+    .section-heading p { color: var(--color-muted); max-width: 68ch; font-size: var(--text-base); }
+
+    /* ── LABS GRID ── */
+    .labs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+      gap: var(--space-6);
+    }
+
+    /* ── LAB CARD ── */
+    .lab-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+    }
+    .lab-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: rgba(0,68,124,0.22); }
+    .lab-card:focus-visible { outline: 2px solid var(--jav-gold); outline-offset: 3px; }
+    .lab-card-header {
+      padding: var(--space-6) var(--space-6) var(--space-5);
+      background: linear-gradient(135deg, var(--jav-blue) 0%, var(--jav-blue-mid) 100%);
+      position: relative; overflow: hidden;
+    }
+    .lab-card-header::after {
+      content: ''; position: absolute; bottom: -20px; right: -20px;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .lab-floor-badge {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.22);
+      color: #fff; font-size: var(--text-xs); font-weight: 600;
+      padding: 3px var(--space-3); border-radius: var(--radius-full);
+      margin-bottom: var(--space-3); backdrop-filter: blur(4px);
+    }
+    .lab-name {
+      font-family: var(--font-display); font-size: var(--text-base); font-weight: 600;
+      color: #FFFFFF; line-height: 1.35; max-width: 32ch;
+    }
+    .lab-card-body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); flex: 1; }
+    .lab-gi-tag {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--jav-gold-light); border: 1px solid rgba(232,167,0,0.3);
+      color: #7A5500; font-size: var(--text-xs); font-weight: 600;
+      padding: 4px var(--space-3); border-radius: var(--radius-full); align-self: flex-start;
+    }
+    [data-theme="dark"] .lab-gi-tag { background: rgba(232,167,0,0.12); color: #E8A700; border-color: rgba(232,167,0,0.25); }
+    .lab-summary { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.6; flex: 1; }
+    .lab-meta { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .lab-meta-item { display: flex; align-items: center; gap: var(--space-1); font-size: var(--text-xs); color: var(--color-faint); }
+    .lab-card-footer {
+      padding: var(--space-5) var(--space-5);
+      border-top: 1px solid var(--color-border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .responsible-pill {
+      display: flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); color: var(--color-muted);
+    }
+    .responsible-avatar {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--jav-blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .btn-details {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      font-size: var(--text-xs); font-weight: 600; color: var(--jav-blue);
+      padding: 5px var(--space-3); border-radius: var(--radius-full);
+      border: 1.5px solid currentColor;
+      transition: all var(--transition);
+    }
+    [data-theme="dark"] .btn-details { color: #7EB3DD; }
+    .btn-details:hover { background: var(--jav-blue); color: #fff; border-color: var(--jav-blue); }
+    [data-theme="dark"] .btn-details:hover { background: #1A5C96; color: #fff; border-color: #1A5C96; }
+
+    /* ── HIDDEN CARD ── */
+    .lab-card[data-hidden="true"] { display: none; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,20,50,0.65); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--space-6);
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--color-surface); border-radius: var(--radius-xl);
+      max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);
+      transform: translateY(20px) scale(0.98); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      padding: var(--space-6) var(--space-6) var(--space-4);
+      background: linear-gradient(135deg, var(--jav-blue) 0%, var(--jav-blue-mid) 100%);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: var(--space-4); right: var(--space-4);
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.28); }
+    .modal-floor { font-size: var(--text-xs); color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: var(--space-2); }
+    .modal-title { font-family: var(--font-display); font-size: var(--text-lg); color: #fff; font-weight: 700; line-height: 1.3; margin-bottom: var(--space-2); }
+    .modal-gi { font-size: var(--text-sm); color: rgba(255,255,255,0.8); }
+    .modal-body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }
+    .modal-section-title { font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--jav-blue); margin-bottom: var(--space-3); }
+    [data-theme="dark"] .modal-section-title { color: #7EB3DD; }
+    .modal-text { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.7; }
+    .modal-lines { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .line-chip {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      background: var(--jav-blue-light); color: var(--jav-blue);
+      font-size: var(--text-xs); font-weight: 500;
+      padding: 5px var(--space-3); border-radius: var(--radius-full);
+    }
+    [data-theme="dark"] .line-chip { background: rgba(0,68,124,0.25); color: #7EB3DD; }
+    .modal-responsible-card {
+      background: var(--color-surface-2); border-radius: var(--radius-lg);
+      padding: var(--space-4); display: flex; align-items: center; gap: var(--space-4);
+    }
+    .modal-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--jav-blue) 0%, var(--jav-blue-mid) 100%);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: var(--text-base); font-weight: 700;
+      flex-shrink: 0;
+    }
+    .modal-resp-name { font-weight: 600; font-size: var(--text-sm); color: var(--color-text); }
+    .modal-resp-role { font-size: var(--text-xs); color: var(--color-muted); margin-top: 2px; }
+    .modal-link-btn {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--jav-blue); color: #fff;
+      font-size: var(--text-sm); font-weight: 600;
+      padding: var(--space-3) var(--space-5); border-radius: var(--radius-full);
+      transition: background var(--transition), box-shadow var(--transition);
+      align-self: flex-start;
+    }
+    .modal-link-btn:hover { background: var(--jav-blue-dark); color: #fff; box-shadow: 0 4px 16px rgba(0,68,124,0.28); }
+    .divider { height: 1px; background: var(--color-border); }
+
+    /* ── INFO STRIP ── */
+    .info-strip { background: var(--jav-blue); padding-block: clamp(var(--space-10), 5vw, var(--space-16)); }
+    .info-strip-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-8); }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: var(--text-xl); color: var(--jav-gold); font-weight: 700; }
+    .stat-label { font-size: var(--text-sm); color: rgba(255,255,255,0.75); margin-top: var(--space-1); }
+
+    /* ── FOOTER ── */
+    .site-footer { background: var(--jav-blue-dark); color: rgba(255,255,255,0.65); padding-block: var(--space-10); }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: var(--space-8); justify-content: space-between; align-items: flex-start; }
+    .footer-brand { max-width: 320px; }
+    .footer-title { font-family: var(--font-display); font-size: var(--text-base); color: #fff; margin-bottom: var(--space-2); }
+    .footer-text { font-size: var(--text-xs); line-height: 1.7; }
+    .footer-links h4 { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--jav-gold); margin-bottom: var(--space-3); }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+    .footer-links a { font-size: var(--text-xs); color: rgba(255,255,255,0.65); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--jav-gold); }
+    .footer-bottom { margin-top: var(--space-8); padding-top: var(--space-4); border-top: 1px solid rgba(255,255,255,0.10); font-size: var(--text-xs); text-align: center; color: rgba(255,255,255,0.4); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: var(--space-16) var(--space-8); color: var(--color-muted); }
+    .empty-state svg { margin-inline: auto; margin-bottom: var(--space-4); color: var(--color-faint); }
+    .empty-state h3 { font-size: var(--text-lg); color: var(--color-text); margin-bottom: var(--space-2); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero-title { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+      .hero-meta { flex-direction: column; gap: var(--space-2); }
+      .modal { max-height: 95vh; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Ir al contenido principal</a>
+
+<!-- NAV -->
+<nav class="site-nav" aria-label="Navegación principal">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <!-- Logo PUJ simplificado SVG -->
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Pontificia Universidad Javeriana">
+        <rect width="36" height="36" rx="4" fill="#E8A700"/>
+        <rect x="2" y="2" width="32" height="11" rx="2" fill="#00447C"/>
+        <rect x="2" y="15" width="32" height="8" rx="2" fill="#FFFFFF"/>
+        <rect x="2" y="25" width="32" height="9" rx="2" fill="#00447C"/>
+        <text x="18" y="11" text-anchor="middle" fill="#FFFFFF" font-family="serif" font-size="7" font-weight="bold">PUJ</text>
+      </svg>
+      <div class="nav-logo-text">
+        Laboratorios de Ciencias
+        <span>Pontificia Universidad Javeriana · Bogotá</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" data-theme-toggle aria-label="Cambiar modo de color">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-img" role="img" aria-label="Edificio de Ciencias Básicas, Pontificia Universidad Javeriana, Bogotá"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="container" style="padding-inline:0">
+      <div class="hero-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 17.93V18a1 1 0 0 0-2 0v1.93A8 8 0 0 1 4.07 13H6a1 1 0 0 0 0-2H4.07A8 8 0 0 1 11 4.07V6a1 1 0 0 0 2 0V4.07A8 8 0 0 1 19.93 11H18a1 1 0 0 0 0 2h1.93A8 8 0 0 1 13 19.93z"/></svg>
+        Visita Laboratorios 2025
+      </div>
+      <h1 class="hero-title" id="hero-title">Laboratorios de Investigación Facultad de Ciencias</h1>
+      <p class="hero-sub">Explora las capacidades científicas y de servicio de los grupos de investigación de la Pontificia Universidad Javeriana. Ciencia aplicada al sector agroalimentario y de innovación.</p>
+      <div class="hero-meta">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          6 Laboratorios · Pisos 5, 7 y 9
+        </div>
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Sesión: 3:00 – 4:30 pm
+        </div>
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Agrifood HUB &amp; Eatable Adventures
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-section" role="navigation" aria-label="Filtros de laboratorio">
+  <div class="container filter-inner">
+    <span class="filter-label">Filtrar por</span>
+    <div class="filter-row" id="filter-row" role="group" aria-label="Opciones de filtro">
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">Todos los laboratorios</button>
+      <button class="filter-btn" data-filter="piso-5" aria-pressed="false">🏢 Piso 5</button>
+      <button class="filter-btn" data-filter="piso-7" aria-pressed="false">🏢 Piso 7</button>
+      <button class="filter-btn" data-filter="piso-9" aria-pressed="false">🏢 Piso 9</button>
+      <button class="filter-btn" data-filter="tema-vegetal" aria-pressed="false">🌱 Biología Vegetal</button>
+      <button class="filter-btn" data-filter="tema-alimentos" aria-pressed="false">🍃 Alimentos &amp; Nutrición</button>
+      <button class="filter-btn" data-filter="tema-microbio" aria-pressed="false">🔬 Microbiología &amp; Ambiental</button>
+      <button class="filter-btn" data-filter="tema-celular" aria-pressed="false">⚗️ Bioquímica &amp; Celular</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="main">
+  <section class="section" aria-labelledby="labs-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="labs-heading">Grupos de Investigación en Visita</h2>
+        <p>Cada grupo ofrece servicios, consultorías y capacidades científicas de clase mundial. Haz clic en una tarjeta para conocer más detalles del laboratorio.</p>
+      </div>
+
+      <div class="labs-grid" id="labs-grid" role="list">
+
+        <!-- CARD 1 – Agricultura Biológica -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio de Cultivo de Tejidos Vegetales, Piso 5"
+          data-floors="piso-5"
+          data-themes="tema-vegetal"
+          data-modal="modal-1"
+          onclick="openModal('modal-1')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-1')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 5
+            </div>
+            <div class="lab-name">Cultivo de Tejidos Vegetales y Asociaciones Suelo-Planta-Microorganismo</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI Agricultura Biológica
+            </div>
+            <p class="lab-summary">Biotecnología vegetal e indicadores de calidad de suelos tropicales. Desarrolla bioinsumos y conservación in vitro de recursos biológicos de alto interés agropecuario.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>19 artículos · 3 patentes</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3:00 – 3:10 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">LD</div>
+              <span>Lucia A. Díaz / S. Constantino</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+        <!-- CARD 2 – Alimentos, Nutrición y Salud -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio de Procesamiento de Alimentos, Piso 5"
+          data-floors="piso-5"
+          data-themes="tema-alimentos"
+          data-modal="modal-2"
+          onclick="openModal('modal-2')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-2')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 5
+            </div>
+            <div class="lab-name">Procesamiento de Alimentos I y II</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI Alimentación, Nutrición y Salud
+            </div>
+            <p class="lab-summary">Más de 20 años de investigación aplicada en ciencia de alimentos, nutrición pública y tecnología alimentaria. Clasificación A1 Colciencias. Vinculado a la industria y a comunidades colombianas.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>89 artículos · 60 proyectos</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3:10 – 3:30 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">DB</div>
+              <span>D. Ballesteros / A. Giraldo</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+        <!-- CARD 3 – Biología de Plantas -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio de Fisiología Vegetal y Biología Molecular, Piso 7"
+          data-floors="piso-7"
+          data-themes="tema-vegetal"
+          data-modal="modal-3"
+          onclick="openModal('modal-3')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-3')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 7
+            </div>
+            <div class="lab-name">Fisiología Vegetal, Biología Molecular Vegetal y Control Biológico</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI Biología de Plantas y Sistemas Productivos
+            </div>
+            <p class="lab-summary">Estudia cómo las plantas responden al estrés abiótico y desarrolla estrategias de control biológico de plagas. Equipado con LI-6400XT (medidor de fotosíntesis), fluorómetro y tecnología molecular de última generación.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Equipos punta · Biomolecular</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3:40 – 3:50 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">PM</div>
+              <span>María del Pilar Márquez</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+        <!-- CARD 4 – USBA -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio USBA, Piso 7"
+          data-floors="piso-7"
+          data-themes="tema-microbio"
+          data-modal="modal-4"
+          onclick="openModal('modal-4')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-4')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 7
+            </div>
+            <div class="lab-name">Laboratorio USBA – Unidad de Saneamiento y Biotecnología Ambiental</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI USBA
+            </div>
+            <p class="lab-summary">Pionero en biotecnología para tratamiento de aguas residuales, biorremediación y valorización de biosólidos. Trabaja con el sector agroindustrial para soluciones sostenibles de manejo hídrico y residuos orgánicos.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Clasificación A · Colciencias</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3:50 – 4:00 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">GL</div>
+              <span>Gina López</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+        <!-- CARD 5 – UNIDIA -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio de Microbiología Ambiental y Suelos, Piso 9"
+          data-floors="piso-9"
+          data-themes="tema-microbio"
+          data-modal="modal-5"
+          onclick="openModal('modal-5')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-5')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 9
+            </div>
+            <div class="lab-name">Microbiología Ambiental y Suelos</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI UNIDIA
+            </div>
+            <p class="lab-summary">Estudia microorganismos en suelos y ambientes agrícolas. Sus investigaciones fundamentan el desarrollo de bioinsumos y estrategias de mejoramiento de la salud del suelo aplicables al sector agropecuario moderno.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Libro "Microb. Ambiental" PUJ 2024</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4:10 – 4:20 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">AP</div>
+              <span>Aura Marina Pedroza</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+        <!-- CARD 6 – Nutrición y Bioquímica -->
+        <article
+          class="lab-card"
+          role="listitem"
+          tabindex="0"
+          aria-label="Laboratorio de Bioquímica, Electrofisiología y Cultivos Celulares, Piso 9"
+          data-floors="piso-9"
+          data-themes="tema-celular tema-alimentos"
+          data-modal="modal-6"
+          onclick="openModal('modal-6')"
+          onkeydown="if(event.key==='Enter'||event.key===' ')openModal('modal-6')"
+        >
+          <div class="lab-card-header">
+            <div class="lab-floor-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              Piso 9
+            </div>
+            <div class="lab-name">Bioquímica y Nutrición; Electrofisiología y Cultivos Celulares</div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-gi-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              GI Nutrición y Bioquímica
+            </div>
+            <p class="lab-summary">Investiga canales iónicos, señalización celular y el potencial terapéutico de moléculas naturales. Evalúa compuestos de origen vegetal colombiano con actividad sobre el sistema nervioso y el metabolismo celular.</p>
+            <div class="lab-meta">
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Clasificación A1 · Colciencias</span>
+              <span class="lab-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4:20 – 4:30 pm</span>
+            </div>
+          </div>
+          <div class="lab-card-footer">
+            <div class="responsible-pill">
+              <div class="responsible-avatar">JI</div>
+              <span>José Iglesias</span>
+            </div>
+            <span class="btn-details">Ver más <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+        </article>
+
+      </div><!-- /labs-grid -->
+
+      <!-- Empty state (hidden by default) -->
+      <div class="empty-state" id="empty-state" style="display:none" role="status" aria-live="polite">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <h3>Sin resultados para este filtro</h3>
+        <p>Prueba con otro criterio de búsqueda o selecciona <strong>Todos los laboratorios</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO STRIP -->
+  <div class="info-strip" aria-label="Estadísticas de la Facultad de Ciencias">
+    <div class="container">
+      <div class="info-strip-inner">
+        <div class="stat-item">
+          <div class="stat-num">83</div>
+          <div class="stat-label">Laboratorios de docencia e investigación</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">20</div>
+          <div class="stat-label">Grupos de investigación activos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">70%</div>
+          <div class="stat-label">Grupos clasificados A1 y A por Minciencias</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">19.060 m²</div>
+          <div class="stat-label">Nuevo edificio de infraestructura científica</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-title">Facultad de Ciencias – PUJ Bogotá</div>
+      <p class="footer-text">Investigación básica y aplicada en Biología, Química, Microbiología, Nutrición, Bioquímica, Matemáticas y Física. Vinculamos la ciencia a los problemas específicos de Colombia y el sector productivo.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Recursos</h4>
+      <ul>
+        <li><a href="https://ciencias.javeriana.edu.co" target="_blank" rel="noopener noreferrer">Facultad de Ciencias</a></li>
+        <li><a href="https://perfilesycapacidades.javeriana.edu.co" target="_blank" rel="noopener noreferrer">Perfiles y Capacidades PUJ</a></li>
+        <li><a href="https://www.javeriana.edu.co" target="_blank" rel="noopener noreferrer">Universidad Javeriana</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Laboratorios</h4>
+      <ul>
+        <li><a href="#" onclick="openModal('modal-1');return false;">GI Agricultura Biológica</a></li>
+        <li><a href="#" onclick="openModal('modal-2');return false;">GI Alimentación, Nutrición y Salud</a></li>
+        <li><a href="#" onclick="openModal('modal-3');return false;">GI Biología de Plantas</a></li>
+        <li><a href="#" onclick="openModal('modal-4');return false;">GI USBA</a></li>
+        <li><a href="#" onclick="openModal('modal-5');return false;">GI UNIDIA</a></li>
+        <li><a href="#" onclick="openModal('modal-6');return false;">GI Nutrición y Bioquímica</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>Pontificia Universidad Javeriana · Facultad de Ciencias · Bogotá D.C., Colombia · Visita Agrifood HUB &amp; Eatable Adventures 2025</p>
+  </div>
+</footer>
+
+<!-- ══════════════ MODALES ══════════════ -->
+
+<!-- MODAL 1 – Agricultura Biológica -->
+<div class="modal-overlay" id="modal-1" role="dialog" aria-modal="true" aria-labelledby="modal-1-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-1'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 5 · Sesión 3:00 – 3:10 pm</div>
+      <div class="modal-title" id="modal-1-title">Cultivo de Tejidos Vegetales y Asociaciones Suelo-Planta-Microorganismo</div>
+      <div class="modal-gi">Grupo de Investigación en Agricultura Biológica</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">🌱 Descripción del laboratorio</div>
+        <p class="modal-text">Este laboratorio es el núcleo de la investigación en biotecnología vegetal de la Javeriana. Trabaja con técnicas de cultivo in vitro que permiten la propagación, conservación y mejoramiento de plantas de interés agropecuario, así como el estudio de las interacciones complejas entre plantas, microorganismos del suelo y las condiciones ambientales del suelo tropical colombiano. El grupo fue creado en 2006 y reconocido formalmente en 2015.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">🌿 Bioprospección y bioinsumos</span>
+          <span class="line-chip">🧫 Conservación in vitro de recursos biológicos</span>
+          <span class="line-chip">🌍 Indicadores de calidad de suelos tropicales</span>
+          <span class="line-chip">🦠 Microorganismos promotores de crecimiento vegetal</span>
+          <span class="line-chip">🔬 Asociaciones suelo-planta-microorganismo</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Potencial directo para empresas del sector agrifood: desarrollo de bioinsumos (biofertilizantes, bioestimulantes), conservación de variedades vegetales de interés comercial, propagación masiva in vitro de cultivos estratégicos y evaluación de la salud microbiológica del suelo para sistemas de producción sostenibles.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👩‍🔬 Responsables</div>
+        <div style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+          <div class="modal-responsible-card" style="flex:1 1 200px">
+            <div class="modal-avatar">LD</div>
+            <div><div class="modal-resp-name">Lucia Ana Díaz Ariza</div><div class="modal-resp-role">Líder del grupo · Departamento de Biología</div></div>
+          </div>
+          <div class="modal-responsible-card" style="flex:1 1 200px">
+            <div class="modal-avatar">SC</div>
+            <div><div class="modal-resp-name">Sandra Constantino Chuaire</div><div class="modal-resp-role">Co-tutora · Profesora Asistente</div></div>
+          </div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://perfilesycapacidades.javeriana.edu.co/es/organisations/agricultura-biol%C3%B3gica/" target="_blank" rel="noopener noreferrer">
+        Ver perfil completo del grupo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 – Alimentación, Nutrición y Salud -->
+<div class="modal-overlay" id="modal-2" role="dialog" aria-modal="true" aria-labelledby="modal-2-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-2'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 5 · Sesión 3:10 – 3:30 pm</div>
+      <div class="modal-title" id="modal-2-title">Procesamiento de Alimentos I y II</div>
+      <div class="modal-gi">Grupo de Investigación Alimentación, Nutrición y Salud · Clasificación A1</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">🍃 Descripción del laboratorio</div>
+        <p class="modal-text">El laboratorio de Procesamiento de Alimentos del Departamento de Nutrición y Bioquímica es un espacio donde convergen la ciencia de alimentos, la tecnología alimentaria y la investigación nutricional aplicada. El grupo fue creado en 2004 y ha desarrollado más de 60 proyectos con impacto directo en la salud nutricional de Colombia. Hoy cuenta con clasificación A1 de Minciencias, la más alta del sistema científico colombiano.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">🧪 Ciencia y tecnología de alimentos</span>
+          <span class="line-chip">📊 Nutrición humana y nutrición pública</span>
+          <span class="line-chip">👶 Nutrición infantil</span>
+          <span class="line-chip">🌽 Calidad fisicoquímica de alimentos nativos</span>
+          <span class="line-chip">🥗 Seguridad alimentaria y nutricional</span>
+          <span class="line-chip">🔬 Análisis de composición nutricional</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Capacidad para análisis de composición nutricional, desarrollo y validación de nuevos productos, evaluación de calidad fisicoquímica y microbiológica, perfil nutricional de ingredientes e innovación en formulación. Aliado estratégico para empresas que buscan sustentar sus afirmaciones nutricionales con evidencia científica.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👨‍🔬 Responsables</div>
+        <div style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+          <div class="modal-responsible-card" style="flex:1 1 200px">
+            <div class="modal-avatar">DB</div>
+            <div><div class="modal-resp-name">Diego Ballesteros</div><div class="modal-resp-role">Departamento de Nutrición y Bioquímica</div></div>
+          </div>
+          <div class="modal-responsible-card" style="flex:1 1 200px">
+            <div class="modal-avatar">AG</div>
+            <div><div class="modal-resp-name">Andrés Giraldo</div><div class="modal-resp-role">Investigador · Grupo ANS</div></div>
+          </div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://ciencias.javeriana.edu.co/departamento-de-nutricion" target="_blank" rel="noopener noreferrer">
+        Ver Departamento de Nutrición y Bioquímica
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 – Biología de Plantas y Sistemas Productivos -->
+<div class="modal-overlay" id="modal-3" role="dialog" aria-modal="true" aria-labelledby="modal-3-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-3'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 7 · Sesión 3:40 – 3:50 pm</div>
+      <div class="modal-title" id="modal-3-title">Fisiología Vegetal, Biología Molecular Vegetal y Control Biológico</div>
+      <div class="modal-gi">GI Biología de Plantas y Sistemas Productivos</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">🌿 Descripción del laboratorio</div>
+        <p class="modal-text">Un laboratorio de frontera que integra tres pilares científicos: el estudio de la fisiología vegetal y cómo las plantas responden al estrés abiótico (sequía, calor, salinidad), la biología molecular aplicada a la comprensión de genes clave en semillas y cultivos, y el control biológico de plagas mediante el uso de nematodos entomopatógenos y sus bacterias simbiontes. Equipado con tecnología de última generación como el medidor de fotosíntesis LI-6400XT, fluorómetro y cámara de Schölander.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">💧 Fisiología y biología molecular del estrés abiótico</span>
+          <span class="line-chip">🌾 Fisiología y bioquímica de semillas</span>
+          <span class="line-chip">🐛 Patología de insectos y control biológico</span>
+          <span class="line-chip">🧬 Propagación y caracterización de recursos vegetales</span>
+          <span class="line-chip">🔭 Microscopía y análisis molecular</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Capacidad para evaluar la tolerancia de cultivos a condiciones de estrés climático —clave ante el cambio climático—, desarrollar y validar bioplaguicidas basados en nematodos entomopatógenos para reemplazar agroquímicos convencionales, y caracterizar molecularmente variedades de interés agronómico. Experiencia en seguridad alimentaria y fortalecimiento de sistemas productivos.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👩‍🔬 Responsable</div>
+        <div class="modal-responsible-card">
+          <div class="modal-avatar">PM</div>
+          <div><div class="modal-resp-name">María del Pilar Márquez</div><div class="modal-resp-role">Investigadora principal · Departamento de Biología</div></div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://perfilesycapacidades.javeriana.edu.co/es/organisations/biolog%C3%ADa-de-plantas-y-sistemas-productivos/" target="_blank" rel="noopener noreferrer">
+        Ver perfil del grupo en PUJ
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4 – USBA -->
+<div class="modal-overlay" id="modal-4" role="dialog" aria-modal="true" aria-labelledby="modal-4-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-4'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 7 · Sesión 3:50 – 4:00 pm</div>
+      <div class="modal-title" id="modal-4-title">Laboratorio USBA – Unidad de Saneamiento y Biotecnología Ambiental</div>
+      <div class="modal-gi">GI USBA · Clasificación A · Minciencias</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">💧 Descripción del laboratorio</div>
+        <p class="modal-text">La Unidad de Saneamiento y Biotecnología Ambiental (USBA) es uno de los grupos de investigación más consolidados de la Facultad de Ciencias. Desarrolla tecnologías biológicas para el tratamiento y reutilización de aguas residuales domésticas y agroindustriales, el aprovechamiento de biosólidos y el estudio de la diversidad microbiana en sistemas de tratamiento. Su trabajo tiene una dimensión aplicada directa: convertir residuos en recursos.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">🚰 Tratamiento biológico de aguas residuales</span>
+          <span class="line-chip">♻️ Valorización de biosólidos agroindustriales</span>
+          <span class="line-chip">🦠 Diversidad microbiana en sistemas de tratamiento</span>
+          <span class="line-chip">🌱 Reutilización de aguas en agricultura</span>
+          <span class="line-chip">🏭 Biotecnología para efluentes industriales</span>
+          <span class="line-chip">☣️ Biodegradación de contaminantes emergentes</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Soluciones científicamente fundamentadas para el manejo de efluentes de plantas de procesamiento de alimentos, aprovechamiento de subproductos líquidos agroindustriales, diseño de sistemas de tratamiento para uso eficiente del agua en producción agrícola, y evaluación de toxicidad de efluentes mediante bioensayos. El USBA ha trabajado con entidades como la CAR y la industria nacional.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👩‍🔬 Responsable</div>
+        <div class="modal-responsible-card">
+          <div class="modal-avatar">GL</div>
+          <div><div class="modal-resp-name">Gina López</div><div class="modal-resp-role">Investigadora · Unidad USBA</div></div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://perfilesycapacidades.javeriana.edu.co/es/organisations/unidad-de-saneamiento-y-biotecnolog%C3%ADa-ambiental-usba/" target="_blank" rel="noopener noreferrer">
+        Ver perfil USBA en PUJ
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 5 – UNIDIA -->
+<div class="modal-overlay" id="modal-5" role="dialog" aria-modal="true" aria-labelledby="modal-5-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-5'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 9 · Sesión 4:10 – 4:20 pm</div>
+      <div class="modal-title" id="modal-5-title">Microbiología Ambiental y Suelos</div>
+      <div class="modal-gi">GI UNIDIA – Unidad de Investigaciones Agropecuarias</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">🌍 Descripción del laboratorio</div>
+        <p class="modal-text">El laboratorio de Microbiología Ambiental y Suelos de UNIDIA estudia la comunidad microbiana de suelos agrícolas y ambientes naturales para entender su papel en la salud del suelo, el ciclo de nutrientes y la productividad de los cultivos. La investigadora Aura Marina Pedroza es coeditora del libro "Microbiología Ambiental: De la teoría a la práctica" (Editorial PUJ, 2024), referente nacional en la materia. El grupo colabora activamente con otros grupos como el de Agricultura Biológica y Control Biológico.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">🌾 Microbiología de suelos agrícolas</span>
+          <span class="line-chip">🦠 Bioprospección microbiana</span>
+          <span class="line-chip">🌿 Microorganismos promotores de crecimiento</span>
+          <span class="line-chip">♻️ Biorremediación de suelos contaminados</span>
+          <span class="line-chip">📊 Indicadores microbiológicos de calidad del suelo</span>
+          <span class="line-chip">🔬 Análisis de microbioma (metabarcoding)</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Diagnóstico microbiológico de suelos productivos, desarrollo de bioinsumos basados en microorganismos nativos, evaluación del impacto de prácticas agrícolas sobre el microbioma del suelo y asesoría técnica para la transición hacia agricultura regenerativa y sostenible. Herramientas clave para empresas de agrifood con enfoque en sostenibilidad.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👩‍🔬 Responsable</div>
+        <div class="modal-responsible-card">
+          <div class="modal-avatar">AP</div>
+          <div><div class="modal-resp-name">Aura Marina Pedroza Rodríguez</div><div class="modal-resp-role">Investigadora principal · Departamento de Microbiología</div></div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://perfilesycapacidades.javeriana.edu.co/es/organisations/unidad-de-investigaciones-agropecuarias" target="_blank" rel="noopener noreferrer">
+        Ver UNIDIA en Perfiles PUJ
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 6 – Nutrición y Bioquímica -->
+<div class="modal-overlay" id="modal-6" role="dialog" aria-modal="true" aria-labelledby="modal-6-title" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal(document.getElementById('modal-6'))" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-floor">📍 Piso 9 · Sesión 4:20 – 4:30 pm</div>
+      <div class="modal-title" id="modal-6-title">Bioquímica y Nutrición; Electrofisiología y Cultivos Celulares</div>
+      <div class="modal-gi">GI Nutrición y Bioquímica · Clasificación A1</div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="modal-section-title">⚗️ Descripción del laboratorio</div>
+        <p class="modal-text">Este laboratorio opera en la frontera entre la bioquímica, la fisiología celular y la neurobiología. Estudia los mecanismos moleculares de los canales iónicos, la señalización celular y los efectos terapéuticos de moléculas de origen natural sobre el sistema nervioso central y el metabolismo. El grupo integra herramientas de electrofisiología de parche (patch-clamp), cultivos celulares y biología computacional para caracterizar compuestos con potencial farmacológico derivados de plantas colombianas. Clasificación A1 de Minciencias.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">🔬 Líneas de investigación y servicios</div>
+        <div class="modal-lines">
+          <span class="line-chip">⚡ Electrofisiología y canales iónicos</span>
+          <span class="line-chip">🧬 Cultivos celulares primarios y líneas celulares</span>
+          <span class="line-chip">💊 Evaluación de actividad biológica de extractos</span>
+          <span class="line-chip">🌿 Moléculas bioactivas de plantas colombianas</span>
+          <span class="line-chip">🧠 Neurobiología computacional</span>
+          <span class="line-chip">🔬 Biología molecular y bioquímica experimental</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">💼 Relevancia para el sector agroalimentario</div>
+        <p class="modal-text">Evaluación del potencial bioactivo de ingredientes funcionales e ingredientes activos de origen vegetal, validación de afirmaciones de salud a nivel celular, caracterización del mecanismo de acción de compuestos naturales con potencial nutracéutico, y desarrollo de ensayos in vitro para la industria de alimentos funcionales y suplementos dietarios.</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="modal-section-title">👨‍🔬 Responsable</div>
+        <div class="modal-responsible-card">
+          <div class="modal-avatar">JI</div>
+          <div><div class="modal-resp-name">José Iglesias</div><div class="modal-resp-role">Investigador · Departamento de Nutrición y Bioquímica</div></div>
+        </div>
+      </div>
+      <a class="modal-link-btn" href="https://ciencias.javeriana.edu.co/departamento-de-nutricion" target="_blank" rel="noopener noreferrer">
+        Ver Departamento de Nutrición y Bioquímica
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+  /* ── DARK MODE TOGGLE ── */
+  (function(){
+    var r = document.documentElement;
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var d = mq.matches ? 'dark' : 'light';
+    r.setAttribute('data-theme', d);
+    var t = document.querySelector('[data-theme-toggle]');
+    function updateIcon() {
+      if (!t) return;
+      t.innerHTML = d === 'dark'
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      t.setAttribute('aria-label', 'Cambiar a modo ' + (d === 'dark' ? 'claro' : 'oscuro'));
+    }
+    updateIcon();
+    if (t) t.addEventListener('click', function(){
+      d = d === 'dark' ? 'light' : 'dark';
+      r.setAttribute('data-theme', d);
+      updateIcon();
+    });
+  })();
+
+  /* ── FILTER ── */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.lab-card');
+  var emptyState = document.getElementById('empty-state');
+
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed','true');
+      var filter = btn.getAttribute('data-filter');
+      var visible = 0;
+      cards.forEach(function(card){
+        if (filter === 'all') {
+          card.removeAttribute('data-hidden');
+          visible++;
+        } else {
+          var floors = card.getAttribute('data-floors') || '';
+          var themes = card.getAttribute('data-themes') || '';
+          var match = floors.indexOf(filter) > -1 || themes.indexOf(filter) > -1;
+          if (match) { card.removeAttribute('data-hidden'); visible++; }
+          else { card.setAttribute('data-hidden','true'); }
+        }
+      });
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+
+  /* ── MODAL ── */
+  function openModal(id) {
+    var overlay = document.getElementById(id);
+    if (!overlay) return;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var firstFocusable = overlay.querySelector('button, [href], [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) setTimeout(function(){ firstFocusable.focus(); }, 50);
+    overlay._returnFocus = document.activeElement;
+  }
+  function closeModal(overlay) {
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if (overlay._returnFocus) overlay._returnFocus.focus();
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.modal-overlay.open');
+      if (open) closeModal(open);
+    }
+  });
+</script>
+</body>
+</html>
